@@ -6,7 +6,11 @@
     </div>
     <div class="col-lg-9 col-xl-8 text-center">
       <p class="lead">{{ .Params.lead | safeHTML }}</p>
-      <a class="btn btn-primary btn-cta rounded-pill btn-lg my-3" href="{{ (print "/docs/" (cond site.Params.doks.docsVersioning (print site.Params.doks.docsVersion "/") "") "guides/get-started/") | relLangURL }}" role="button">{{ i18n "get_started" }}</a>
+      {{ if eq $.Site.Language.LanguageName "English" }}
+        <a class="btn btn-primary btn-cta rounded-pill btn-lg my-3" href="{{ (print "/docs/" (cond site.Params.doks.docsVersioning (print site.Params.doks.docsVersion "/") "") "guides/get-started/") | relLangURL }}" role="button">{{ i18n "get_started" }}</a>
+      {{ else if eq $.Site.Language.LanguageName "中文" }}
+        <a class="btn btn-primary btn-cta rounded-pill btn-lg my-3" href="{{ (print "/docs/" (cond site.Params.doks.docsVersioning (print site.Params.doks.docsVersion "/") "") "guides/开始/") | relLangURL }}" role="button">{{ i18n "get_started" }}</a>
+      {{ end }}
       {{ .Content }}
     </div>
   </div>
