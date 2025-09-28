@@ -1,2 +1,2 @@
 # Overrides for production environment
-baseurl = "http://hyperfile.org/"
+baseurl = "https://hyperfile.org/"
