@@ -6,7 +6,7 @@
     </div>
     <div class="col-lg-9 col-xl-8 text-center">
       <p class="lead">{{ .Params.lead | safeHTML }}</p>
-      <a class="btn btn-primary btn-cta rounded-pill btn-lg my-3" href="/docs/{{ if site.Params.doks.docsVersioning }}{{ site.Params.doks.docsVersion }}/{{ end }}guides/example-guide/" role="button">{{ i18n "get_started" }}</a>
+      <a class="btn btn-primary btn-cta rounded-pill btn-lg my-3" href="{{ (print "/docs/" (cond site.Params.doks.docsVersioning (print site.Params.doks.docsVersion "/") "") "guides/get-started/") | relLangURL }}" role="button">{{ i18n "get_started" }}</a>
       {{ .Content }}
     </div>
   </div>
@@ -24,20 +24,59 @@
     <div class="container">
       <div class="row justify-content-center text-center">
         <div class="col-lg-5">
-          <h2 class="h4">Update content</h2>
-          <p>Edit <code>content/_index.md</code> to see this page change.</p>
+          <h2 class="h4">Copy on Write</h2>
+          <p>Optimize storage space by using copy-on-write space allocation strategy, deferring data space allocation until first modification in block level granularity.</p>
         </div>
         <div class="col-lg-5">
-          <h2 class="h4">Add new content</h2>
-          <p>Add Markdown files to <code>content</code> to create new pages.</p>
+          <h2 class="h4">Data Direct on S3</h2>
+          <p>Random read and write data direct on S3 at block aligned boundary.</p>
         </div>
         <div class="col-lg-5">
-          <h2 class="h4">Configure your site</h2>
-          <p>Edit your config in <code>config/_default/params.toml</code>.</p>
+          <h2 class="h4">Log Structured</h2>
+          <p>Organized data blocks together with meta blocks in log structured on-disk format.</p>
         </div>
         <div class="col-lg-5">
-          <h2 class="h4">Read the docs</h2>
-          <p>Learn more in the <a href="https://getdoks.org/">Docs</a>.</p>
+          <h2 class="h4">Continuous Data Protection</h2>
+          <p>Capture every data change to provide the ability to archieve near zero RPO.</p>
+        </div>
+        <div class="col-lg-5">
+          <h2 class="h4">POSIX like API</h2>
+          <p>File-like API for applications to easy integration to provide sparse file, truncate, write zero and other capabilities.</p>
+        </div>
+        <div class="col-lg-5">
+          <h2 class="h4">Time Travel</h2>
+          <p>Rollback to any point in time from perserved checkpoint data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  {{ else if eq $.Site.Language.LanguageName "中文" }}
+  <section class="section section-md section-features">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-5">
+          <h2 class="h4">写时复制 COW</h2>
+          <p>通过写入时复制的策略来优化存储空间的分配, 仅当初次写入时分配存储空间.</p>
+        </div>
+        <div class="col-lg-5">
+          <h2 class="h4">S3 上直接随机读写</h2>
+          <p>在 S3 上直接按块对齐的粒度进行随机读写操作, 无需其他额外的组件.</p>
+        </div>
+        <div class="col-lg-5">
+          <h2 class="h4">日志结构</h2>
+          <p>以日志结构的格式组织持久化的数据.</p>
+        </div>
+        <div class="col-lg-5">
+          <h2 class="h4">持续数据保护</h2>
+          <p>持续记录数据变更,以提供<br>接近于零的 RPO.</p>
+        </div>
+        <div class="col-lg-5">
+          <h2 class="h4">类 POSIX 的 API</h2>
+          <p>为应用提供类似文件操作的 API 接口, 提供稀疏文件, 截断, 写零等文件操作特性.</p>
+        </div>
+        <div class="col-lg-5">
+          <h2 class="h4">时间旅行</h2>
+          <p>基于保存的检查点数据, 回滚至<br>任意一个时间点.</p>
         </div>
       </div>
     </div>
@@ -50,8 +89,7 @@
 <section class="section section-md container-fluid bg-light">
   <div class="row justify-content-center text-center">
     <div class="col-lg-7">
-      <h2 class="mt-2">Start building with Doks today</h2>
-      <a class="btn btn-primary rounded-pill px-4 my-2" href="/docs/{{ if site.Params.doks.docsVersioning }}{{ site.Params.doks.docsVersion }}/{{ end }}prologue/introduction/" role="button">{{ i18n "get-started" }}</a>
+      <h2 class="mt-2">Join the Open Source Community on <a href="https://github.com/orgs/hyperfile/discussions">GitHub</a></h2>
     </div>
   </div>
 </section>

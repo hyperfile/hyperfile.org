@@ -1,0 +1,147 @@
+---
+title: "配置"
+description: ""
+summary: ""
+date: 2023-09-07T16:04:48+02:00
+lastmod: 2023-09-07T16:04:48+02:00
+draft: false
+weight: 850
+toc: true
+seo:
+  title: "" # custom title (optional)
+  description: "" # custom description (recommended)
+  canonical: "" # custom canonical URL (optional)
+  noindex: false # false (default) or true
+---
+
+## HyperFileConfig 统一配置
+```Rust
+pub struct HyperFileConfig {
+    /// metadata config for hyper file
+    pub meta: HyperFileMetaConfig,
+    /// staging config for hyper file
+    pub staging: StagingConfig,
+    /// hyper file runtime tunables
+    #[serde(default)]
+    pub runtime: HyperFileRuntimeConfig,
+    #[cfg(feature = "wal")]
+    /// wal config for hyper file
+    pub wal: HyperFileWalConfig,
+    /// data cache config for hyper file
+    pub data_cache: HyperFileDataCacheConfig,
+    /// node cache config for hyper file
+    pub node_cache: HyperFileNodeCacheConfig,
+}
+```
+
+## HyperFileMetaConfig B 树相关配置
+```Rust
+pub struct HyperFileMetaConfig {
+    pub root_size: usize,
+    pub meta_block_size: usize,
+    pub data_block_size: usize,
+    pub block_ptr_format: BlockPtrFormat,
+}
+```
+
+| 参数 | 描述 | 默认值 |
+| ---- | ---- | ----- |
+| root_size | B 树根节点大小 | 请使用默认值 |
+| meta_block_size | B 树节点大小 | 4096 bytes |
+| data_block_size | 文件数据块大小 | 4096 bytes |
+| block_ptr_format | 文件数据块指针格式 | 请使用默认值 |
+
+## StagingConfig 存储路径配置
+```Rust
+pub struct StagingConfig {
+    pub typ: StagingType,
+    pub inode_loc_type: StagingInodeLocationType,
+    pub root_uri: String,
+    pub inode_file_uri: String,
+}
+```
+
+| 参数 | 描述 | 默认值 |
+| ---- | ---- | ----- |
+| typ | 存储类型 | 请使用默认值 |
+| inode_loc_type | inode 文件位置 | 请使用默认值 |
+| root_uri | 存储根路径 uri | 格式: s3://mybucket/dir1/dir2 |
+| inode_file_uri | inode 存储路径 | 请使用默认值 |
+
+## HyperFileRuntimeConfig 运行时相关配置
+```Rust
+pub struct HyperFileRuntimeConfig {
+    // forward origin
+    pub forward_origin_concurrency: usize,
+    pub forward_origin_threshold: usize,
+    pub forward_origin_chunk_size: usize,
+    // segment
+    pub segment_buffer_size: usize,
+    pub segment_mpu_chunk_size: usize,
+    // data cache & dirty cache
+    pub data_cache_blocks: usize,
+    pub data_cache_dirty_max_bytes_threshold: usize,
+    pub data_cache_dirty_max_blocks_threshold: usize,
+    pub data_cache_dirty_max_flush_interval: u64,
+    // bmap node cache
+    pub node_cache_blocks: usize,
+}
+```
+
+| 参数 | 描述 | 默认值 |
+| ---- | ---- | ----- |
+| forward_origin_concurrency | 暂未启用 | 请使用默认值 |
+| forward_origin_threshold | 暂未启用 | 请使用默认值 |
+| forward_origin_chunk_size | 暂未启用 | 请使用默认值 |
+| segment_buffer_size | 为构建段提供的内存缓存大小，脏数据超过该值时自动触发flush | 100 MiB |
+| segment_mpu_chunk_size | 段上传 S3 时使用的分片大小 | 16 MiB |
+| data_cache_blocks | 文件数据块内存缓存的大小 | 1024 (个数据块) |
+| data_cache_dirty_max_bytes_threshold | 脏文件数据大小阈值 | 8 MiB |
+| data_cache_dirty_max_blocks_threshold | 脏文件数据块个数阈值 | 32 (个数据块) |
+| data_cache_dirty_max_flush_interval | 脏文件数据强制flush时间阈值 | 5000 ms |
+| node_cache_blocks | B树节点数据块内存缓存大小 | 1024 (个数据块) |
+
+## HyperFileWalConfig 运行时相关配置
+```Rust
+pub struct HyperFileWalConfig {
+    pub root_uri: String,
+}
+```
+
+## HyperFileDataCacheConfig 运行时相关配置
+```Rust
+pub enum HyperFileDataCacheConfig {
+    Memory(MemCacheConfig),
+    LocalDisk(LocalDiskCacheConfig),
+}
+```
+
+### MemCacheConfig
+```Rust
+pub struct MemCacheConfig {
+}
+```
+
+### LocalDiskCacheConfig
+```Rust
+pub struct LocalDiskCacheConfig {
+    pub cache_dir: Option<String>,
+    pub cache_file_path: Option<String>,
+}
+```
+
+## HyperFileNodeCacheConfig 运行时相关配置
+```Rust
+pub enum HyperFileNodeCacheConfig {
+    LocalDisk(LocalDiskNodeCacheConfig),
+}
+```
+
+### LocalDiskNodeCacheConfig
+```Rust
+pub struct LocalDiskNodeCacheConfig {
+    pub dir: String,
+    pub capacity: usize,
+    pub mode: LocalDiskNodeCacheOpenMode,
+}
+```
