@@ -85,3 +85,7 @@ copyRight = "Copyright (c) 2024-2025 Hyperfile"
   hint = "photo"
   quality = 85
   resampleFilter = "Lanczos"
+
+[services]
+  [services.googleAnalytics]
+    ID = 'G-PY1566JJRJ'
