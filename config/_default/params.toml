@@ -75,7 +75,7 @@ mainSections = ["docs"]
   editPage = false # false (default) or true
   lastMod = true # false (default) or true
   repoHost = "GitHub" # GitHub (default), Gitea, GitLab, Bitbucket, or BitbucketServer
-  docsRepo = "https://github.com/hyperfile/hyperfile-webpage/"
+  docsRepo = "https://github.com/hyperfile/hyperfile.org"
   docsRepoBranch = "main" # main (default), master, or <branch name>
   docsRepoSubPath = "" # "" (none, default) or <sub path>
 
